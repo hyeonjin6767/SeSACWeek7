@@ -39,29 +39,42 @@ class LoginViewController: UIViewController {
         button.layer.cornerRadius = 5
         return button
     }()
+    
+    let viewModel = LoginViewModel() //이렇게 인스턴스 생성시 LoginViewModel의 init이 출력이 됨
        
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
         configureConstraints()
         configureActions()
+        
+//        viewModel.outputValidationLabel.playAction {
+//            self.validationLabel.text = self.viewModel.outputValidationLabel.text
+//        }
+        viewModel.outputValidationLabel.playAction { value in
+            self.validationLabel.text = value
+        }
+        
     }
     
     @objc private func textFieldDidChange() {
         print(#function)
-        guard let id = idTextField.text, let pw = passwordTextField.text else {
-            validationLabel.text = "nil입니다"
-            loginButton.isEnabled = false
-            return
-        }
         
-        if id.count >= 4 && pw.count >= 4 {
-            validationLabel.text = "잘 했어요"
-            loginButton.isEnabled = true
-        } else {
-            validationLabel.text = "아이디, 비밀번호 4자리 이상입니다."
-            loginButton.isEnabled = false
-        }
+        viewModel.inputIdTextFieldText.text = idTextField.text!
+        
+//        guard let id = idTextField.text, let pw = passwordTextField.text else {
+//            validationLabel.text = "nil입니다"
+//            loginButton.isEnabled = false
+//            return
+//        }
+//        
+//        if id.count >= 4 && pw.count >= 4 {
+//            validationLabel.text = "잘 했어요"
+//            loginButton.isEnabled = true
+//        } else {
+//            validationLabel.text = "아이디, 비밀번호 4자리 이상입니다."
+//            loginButton.isEnabled = false
+//        }
     } 
 
     @objc private func loginButtonTapped() {

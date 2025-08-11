@@ -16,7 +16,14 @@ import Foundation
 //UserViewModel는 UI와 상관 없는 영역이여서 UIKit을 import하지 않는다.
 class UserViewModel {
     
-    //
+    
+    let loadButtonTapped: ObservableExercise<String> = ObservableExercise("") //int,bool보다 작은 친구 void같은 ()
+    let resetButtonTapped: ObservableExercise<String> = ObservableExercise("")
+    let addButtonTapped: ObservableExercise<Bool> = ObservableExercise(false)
+
+    let list: ObservableExercise<[Person]> = ObservableExercise([])
+    
+    /*
     var list: [Person] = [] {
         didSet {
             print(oldValue) //예전 데이터보여줘
@@ -37,7 +44,7 @@ class UserViewModel {
     //이 뷰모델의 프로퍼티를 하나 만들어보자: 갱신할 수 있는 기능을 갖는
     var reload: (() -> Void)? //함수를 옵셔널로 갖고 있는 형태 //뷰컨에서 값전달 받아야해: 빌드하면 뷰컨의 뷰디드로드에서 받은 함수 내용을 갖고서 "대기"함: 그러다 버튼을 눌러서 데이터의 변화가 생기면 위에 didset에서 reload를 실행시켜줌으로서 대기하고 있던 클로저의 내용(테이블뷰갱신해달라)이 실행되어 버튼이 정상작동
     
-    
+    */
     
     //UserViewModel 이 친구가 인스턴스가 생성이 되는 시점을 찍어보자
     init() {
@@ -45,7 +52,17 @@ class UserViewModel {
         //씬델리게이트에서 UserViewController()로 만들어질때
         //클래스가 가지고 있는 모든 프로퍼티들이 초기화가 되어야 뷰컨이 만들어질 수 있어: 갖고 있는 프로퍼티들 중에 UserViewModel도 초기화가 되고 있구나 : 빌드시 처음에 뷰컨이 커질때 시작과 같이 초기화됨
         
-        load() //로드함수 실행 시켜서 데이터가 추가
+//        load() //로드함수 실행 시켜서 데이터가 추가
+        
+        loadButtonTapped.playAction { _ in
+            self.load()
+        }
+        resetButtonTapped.playAction { _ in
+            self.reset()
+        }
+        addButtonTapped.playAction { _ in
+            self.add()
+        }
         
     }
     
@@ -53,7 +70,7 @@ class UserViewModel {
     //-----------------------------
 
     
-    
+    /*
     
     
     //뷰컨에서 로드버튼을 눌렀다는 "사실만" 전달해주는 기능을 만들자 : didset 적용
@@ -78,6 +95,8 @@ class UserViewModel {
             add()
         }
     }
+     
+     */
     
     //-----------------------------
     
@@ -86,7 +105,7 @@ class UserViewModel {
     //기능별 함수를 만들어서 다 가져오자
     private func load() { //private까지 해줘야 뷰컨이 진짜 이 안에 무슨 내용이 있는지 몰라 : 
         
-        list = [
+        list.text = [
             Person(name: "James", age: Int.random(in: 20...70)),
             Person(name: "Mary", age: Int.random(in: 20...70)),
             Person(name: "John", age: Int.random(in: 20...70)),
@@ -98,13 +117,17 @@ class UserViewModel {
     
     private func reset() {
         
-        list.removeAll() //데이터의 변화가 감지
+//        list..removeAll() //데이터의 변화가 감지
+        list.text.removeAll() //데이터의 변화가 감지
+
     }
     
     private func add() {
         
         let jack = Person(name: "Jack", age: Int.random(in: 1...100))
-        list.append(jack) //데이터의 변화가 감지
+//        list.append(jack) //데이터의 변화가 감지
+        list.text.append(jack) //데이터의 변화가 감지
+
     }
        
     
@@ -112,7 +135,7 @@ class UserViewModel {
     //최종적으로 보여줄 데이터만 보내줌
     func cellForRowAtData(indexPath: Int) -> String {
         
-        let data = list[indexPath]
+        let data = list.text[indexPath]
         return "\(data.name), \(data.name)세"
         
     }

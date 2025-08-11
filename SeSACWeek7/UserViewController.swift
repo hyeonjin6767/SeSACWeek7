@@ -107,13 +107,18 @@ class UserViewController: UIViewController {
         
         
         
-        viewModel.reload = {
-            //이러한 함수 내용을 보내주자
-            print("reload 클로저 실행")
-            self.tableView.reloadData()
-            //뷰모델이 갖고 있는 리로드함수에 함수 내용(갱신해달라)을 보내줘 : 테이블뷰를 갱신해달라는 함수의 내용을 보내줌: 클로저(함수 내용을 보내줌) //리로드라는 함수에 이 내용이 들어가게
-        }
+//        viewModel.reload = {
+//            //이러한 함수 내용을 보내주자
+//            print("reload 클로저 실행")
+//            self.tableView.reloadData()
+//            //뷰모델이 갖고 있는 리로드함수에 함수 내용(갱신해달라)을 보내줘 : 테이블뷰를 갱신해달라는 함수의 내용을 보내줌: 클로저(함수 내용을 보내줌) //리로드라는 함수에 이 내용이 들어가게
+//        }
         
+        
+        
+        viewModel.list.playAction { _ in
+            self.tableView.reloadData()
+        }
         
     }
      
@@ -145,7 +150,9 @@ class UserViewController: UIViewController {
         
         //신호는 전달하는데 load기능은 뷰컨이 몰라
         //이제 위체처럼 직접적인 호출을 하는게 아니고 아래처럼 신호만 전달
-        viewModel.loadTapped = 0 //버튼이 눌렸다는 사실만 아무값으로 전달 : 0에서 0으로 전달해도 메모리의 주소값이 달라진다던가 하는 개념으로 값이 달라진것으로 봄
+//        viewModel.loadTapped = 0 //버튼이 눌렸다는 사실만 아무값으로 전달 : 0에서 0으로 전달해도 메모리의 주소값이 달라진다던가 하는 개념으로 값이 달라진것으로 봄
+        viewModel.loadButtonTapped.text = ""
+        
         
         
 //        list = [
@@ -168,7 +175,9 @@ class UserViewController: UIViewController {
         
         //이제 위체처럼 직접적인 호출을 하는게 아니고 아래처럼 신호만 전달
         //신호는 전달하는데 reset기능은 뷰컨이 몰라
-        viewModel.resetTapped = () // ()로도 가능
+//        viewModel.resetTapped = () // ()로도 가능
+        viewModel.resetButtonTapped.text = ""
+        
         
         
 //        list.removeAll()
@@ -184,7 +193,8 @@ class UserViewController: UIViewController {
         //다 뷰모델 너가 해 : 뷰컨 입장에선 무슨일을 하고 있는 거같긴 한데 어떤 일을 하는지 알수는 없는 형태
         //신호는 전달하는데 add기능은 뷰컨이 몰라
         //이제 위체처럼 직접적인 호출을 하는게 아니고 아래처럼 신호만 전달
-        viewModel.addTapped = true
+//        viewModel.addTapped = true
+        viewModel.addButtonTapped.text = true
         
         
 //        let jack = Person(name: "Jack", age: Int.random(in: 1...100))
@@ -235,7 +245,9 @@ extension UserViewController: UITableViewDelegate, UITableViewDataSource {
         
         //return list.count
         //그냥 데이터인건지 서버로부터 받아온 더미데이터인건지 뭔지 모르겠고 주면 그거 그대로 보여만 줄께
-        return viewModel.list.count
+//        return viewModel.list.count
+        return viewModel.list.text.count
+
         
         
     }
