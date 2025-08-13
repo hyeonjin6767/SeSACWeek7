@@ -61,9 +61,12 @@ class ReviewNumberViewController: UIViewController {
     
     func bindData() {
         
-        viewModel.outputAmount.bind {
-            print("outputAmount 달라짐", self.viewModel.outputAmount.value)
-            self.formattedAmountLabel.text = self.viewModel.outputAmount.value
+//        viewModel.outputAmount.bind {
+        viewModel.output.amount.bind {
+//            print("outputAmount 달라짐", self.viewModel.outputAmount.value)
+            print("outputAmount 달라짐", self.viewModel.output.amount.value)
+//            self.formattedAmountLabel.text = self.viewModel.outputAmount.value //처음에는 초기값인 빈 값이 실행되서 아무것도 안보임
+            self.formattedAmountLabel.text = self.viewModel.output.amount.value
         }
         
     }
@@ -72,8 +75,9 @@ class ReviewNumberViewController: UIViewController {
     @objc private func amountChanged() {
         print(#function)
         
-        viewModel.inputAmount.value = amountTextField.text //양쪽다 옵셔널 스트링: 타입 일치
-        
+//        viewModel.inputAmount.value = amountTextField.text //양쪽다 옵셔널 스트링: 타입 일치
+        viewModel.input.amount.value = amountTextField.text
+
     }
     
     func showAlert() {

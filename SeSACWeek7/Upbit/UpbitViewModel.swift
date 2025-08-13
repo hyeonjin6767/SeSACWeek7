@@ -10,34 +10,58 @@ import Alamofire
 
 final class UpbitViewModel {
     
-    //셀 선택시 트리거와 함께 값전달도 동시에 받아보자
-    var inputCellSelectedTrigger: ReviewObservable<Upbit?> = ReviewObservable(nil)
-    //셀 클릭시 트리거 전달 받아보자
-//    var inputCellSelectedTrigger: ReviewObservable<Void> = ReviewObservable(())
+    struct Input {
+        var viewDidLoadTrigger: ReviewObservable<Void> = ReviewObservable(()) //빈 튜플 넣어주기
+        var cellSelectedTrigger: ReviewObservable<Upbit?> = ReviewObservable(nil)
+    }
+    struct Output {
+        var marketData: ReviewObservable<[Upbit]> = ReviewObservable([]) //스트링 배열 더미데이터로 테스트 해보자
+        var navigationTitleData = ReviewObservable("")
+        var cellSelected: ReviewObservable<String> = ReviewObservable("")
+    }
+    var input: Input
+    var output: Output
     
     
-    //화면이 뜨기 직전이다라는 생명주기를 얻어 오고싶다.
-    var inputViewDidLoadTrigger: ReviewObservable<Void> = ReviewObservable(()) //빈 튜플 넣어주기
-    
-    var outputMarketData: ReviewObservable<[Upbit]> = ReviewObservable([]) //스트링 배열 더미데이터로 테스트 해보자
-    
-    //네비게이션 타이틀에 보여주고 싶은 내용
-    var outputNavigationTitleData = ReviewObservable("")
-    
-//    var outputCellSelected: ReviewObservable<Void> = ReviewObservable(())
-    var outputCellSelected: ReviewObservable<String> = ReviewObservable("")
-
-    
+//    
+//    //셀 선택시 트리거와 함께 값전달도 동시에 받아보자
+//    var inputCellSelectedTrigger: ReviewObservable<Upbit?> = ReviewObservable(nil)
+//    //셀 클릭시 트리거 전달 받아보자
+////    var inputCellSelectedTrigger: ReviewObservable<Void> = ReviewObservable(())
+//    
+//    
+//    //화면이 뜨기 직전이다라는 생명주기를 얻어 오고싶다.
+//    var inputViewDidLoadTrigger: ReviewObservable<Void> = ReviewObservable(()) //빈 튜플 넣어주기
+//    
+//    var outputMarketData: ReviewObservable<[Upbit]> = ReviewObservable([]) //스트링 배열 더미데이터로 테스트 해보자
+//    
+//    //네비게이션 타이틀에 보여주고 싶은 내용
+//    var outputNavigationTitleData = ReviewObservable("")
+//    
+////    var outputCellSelected: ReviewObservable<Void> = ReviewObservable(())
+//    var outputCellSelected: ReviewObservable<String> = ReviewObservable("")
+//
+//    
     init() {
+        //인스턴스 생성
+        input = Input()
+        output = Output()
         
-        inputCellSelectedTrigger.bind {
+        
+        
+//        inputCellSelectedTrigger.bind {
+        input.cellSelectedTrigger.bind {
             print("viewModel inputCellSelectedTrigger")
             print("셀이 선택되었습니다")
-            print(self.inputCellSelectedTrigger.value)
-            self.outputCellSelected.value = self.inputCellSelectedTrigger.value?.korean_name ?? ""
+            //            print(self.inputCellSelectedTrigger.value)
+            print(self.input.cellSelectedTrigger.value)
+            //            self.outputCellSelected.value = self.inputCellSelectedTrigger.value?.korean_name ?? ""
+            self.output.cellSelected.value = self.input.cellSelectedTrigger.value?.korean_name ?? ""
+
         }
         
-        inputViewDidLoadTrigger.lazyBind {
+//        inputViewDidLoadTrigger.lazyBind {
+        input.viewDidLoadTrigger.lazyBind {
             print("viewModel inputViewDidLoadTrigger")
             print("ViewDidLoad 시점")
             
@@ -57,8 +81,10 @@ final class UpbitViewModel {
         print(#function)
         
         UpbitManager.shared.callRequest { market, title in
-            self.outputMarketData.value = market
-            self.outputNavigationTitleData.value = title
+//            self.outputMarketData.value = market
+            self.output.marketData.value = market
+//            self.outputNavigationTitleData.value = title
+            self.output.navigationTitleData.value = title
         }
         
 //        let url = "https://api.upbit.com/v1/market/all"
