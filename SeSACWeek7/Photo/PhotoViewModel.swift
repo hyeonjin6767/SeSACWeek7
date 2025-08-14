@@ -65,9 +65,10 @@ final class PhotoViewModel {
             print("0~100 사이의 숫자를 입력해주세요.")
             return
         }
-        
-        PhotoManager.shared.getOnePhoto(api: .one(id: photoId)) { photo in
+        //이 뷰모델에는 self가 너무 많아 : 사실 다 weak self써주는게 맞음 : 
+        PhotoManager.shared.getOnePhoto(api: .one(id: photoId)) { [weak self] photo in
             
+            guard let self = self else { return } //self가 nil이면 뒤에코드가 실행되지 않게 early exit을 시켜버림
             let data = "작가: \(photo.author), 해상도: \(photo.width) x \(photo.height)"
             self.output.overview.value = data
             

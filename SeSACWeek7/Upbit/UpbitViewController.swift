@@ -28,6 +28,13 @@ class UpbitViewController: UIViewController {
         bindData()
     }
     
+
+//    override func viewDidAppear(_ animated: Bool) { //"화면이 뜰때 마다" 왔다갔다 하도록
+//        super.viewDidAppear(animated)
+//        
+//        
+//    }
+    
     func bindData() {
 
 //        viewModel.inputViewDidLoadTrigger.value = () //가장 작은단위 빈 튜플로 신호만 전달

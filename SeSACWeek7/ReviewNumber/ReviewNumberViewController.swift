@@ -62,11 +62,14 @@ class ReviewNumberViewController: UIViewController {
     func bindData() {
         
 //        viewModel.outputAmount.bind {
-        viewModel.output.amount.bind {
-//            print("outputAmount 달라짐", self.viewModel.outputAmount.value)
+        viewModel.output.amount.bind { [weak self] in
+            guard let self = self else { return }
+            //            print("outputAmount 달라짐", self.viewModel.outputAmount.value)
             print("outputAmount 달라짐", self.viewModel.output.amount.value)
-//            self.formattedAmountLabel.text = self.viewModel.outputAmount.value //처음에는 초기값인 빈 값이 실행되서 아무것도 안보임
+            //            self.formattedAmountLabel.text = self.viewModel.outputAmount.value //처음에는 초기값인 빈 값이 실행되서 아무것도 안보임
             self.formattedAmountLabel.text = self.viewModel.output.amount.value
+            
+            
         }
         
     }
